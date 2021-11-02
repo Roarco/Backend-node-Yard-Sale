@@ -25,8 +25,13 @@ class ProductsService {
 
   //funciones para los servicios
 
-  create(){
-
+  create(data){
+    const newProduct = {
+      id: faker.random.uuid(),
+      ...data
+    };
+    this.products.push(newProduct);
+    return newProduct;
   }
 
   find()  {
@@ -40,11 +45,31 @@ class ProductsService {
 
   }
 
-  update() {
+  update(id, changes) {
+    const index = this.products.findIndex(product => product.id === id);
+
+    if (index === -1) {
+      throw new Error('Product not found');
+    }else {
+      const product = this.products[index];
+      this.products[index] = {
+        ...product,
+        ...changes
+      };
+      return this.products[index];
+    }
 
   }
 
-  delete() {
+  delete(id) {
+    const index = this.products.findIndex(product => product.id === id);
+
+    if (index === -1) {
+      throw new Error('Product not found');
+    }else {
+      this.products.splice(index, 1);
+      return  { id };
+    }
 
   }
 }

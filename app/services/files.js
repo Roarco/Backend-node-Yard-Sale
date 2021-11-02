@@ -5,8 +5,12 @@ class FilesService {
     this.files = [];
   }
 
-  created (file) {
-    this.files.push(file);
+  created (data) {
+    const newFile = {
+      ...data
+    }
+    this.files.push(newFile)
+    return newFile
   }
 
   find()  {

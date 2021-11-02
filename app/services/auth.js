@@ -4,8 +4,12 @@ class authService{
     this.auth = [];
   }
 
-  created (token) {
-    this.auth.push(token);
+  created (data) {
+   const newToken = {
+        ...data
+  }
+  this.auth.push(newToken)
+  return newToken
   }
 
   find()  {

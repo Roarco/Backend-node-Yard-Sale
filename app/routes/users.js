@@ -15,9 +15,31 @@ router.get('/', (req, res) =>  {
 //POST
 router.post('/', (req, res) =>  {
   const body = req.body;
-  services.createUser(body);
+  const user = services.createUser(body);
   res.json({
-    message: 'User created'
+    message: 'User created',
+    user
+  });
+})
+
+//PATCH
+router.patch('/:id', (req, res) =>  {
+  const { id } = req.params;
+  const body = req.body;
+  const updateUser = services.update(id, body);
+  res.json({
+    message: 'User updated',
+    updateUser
+  });
+})
+
+//DELETE
+router.delete('/:id', (req, res) =>  {
+  const { id } = req.params;
+  const deletedUser = services.delete(id);
+  res.json({
+    message: 'User deleted',
+    deletedUser
   });
 })
 

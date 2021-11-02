@@ -9,9 +9,10 @@ const services = new FilesService();
 //POST
 router.post('/', (req, res) =>  {
   const body = req.body;
-  services.created(body)
+  const file = services.created(body)
   res.json({
-    message: 'File created successfully'
+    message: 'File created successfully',
+    file
   })
 })
 

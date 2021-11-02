@@ -15,9 +15,10 @@ router.get('/', (req, res) =>  {
 //POST
 router.post('/', (req, res) =>  {
   const body = req.body;
-  services.created(body);
+   const token = services.created(body);
   res.json({
-    message: 'Auth created'
+    message: 'Auth created',
+    token
   })
 })
 
