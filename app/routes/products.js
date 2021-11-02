@@ -13,10 +13,15 @@ router.get('/', async (req, res) =>  {
   res.json(products);
 });
 
-router.get('/:id', async (req, res) =>  {
-  const { id } = req.params;
-  const product = await service.findOne(id);
-  res.json(product);
+router.get('/:id', async (req, res, next) =>  {
+  try {
+    const { id } = req.params;
+    const product = await service.findOne(id);
+    res.json(product);
+  }
+  catch (err) {
+    next(err); //se agrega el next para atrapar de forma explicita el error con el middleware
+  }
 })
 
 //POST

@@ -44,6 +44,7 @@ class ProductsService {
   }
 
   async findOne(id) {
+    //const name = this.getTotal();
     // devolvemos un usuario
     return this.products.find(product => product.id === id);
 
