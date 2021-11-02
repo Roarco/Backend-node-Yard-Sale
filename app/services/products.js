@@ -25,7 +25,7 @@ class ProductsService {
 
   //funciones para los servicios
 
-  create(data){
+  async create(data){
     const newProduct = {
       id: faker.random.uuid(),
       ...data
@@ -34,18 +34,22 @@ class ProductsService {
     return newProduct;
   }
 
-  find()  {
+  async find()  {
     // devolvemos todos los usuarios
-    return this.products;
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(this.products);
+      }, 5000);
+    })
   }
 
-  findOne(id) {
+  async findOne(id) {
     // devolvemos un usuario
     return this.products.find(product => product.id === id);
 
   }
 
-  update(id, changes) {
+  async update(id, changes) {
     const index = this.products.findIndex(product => product.id === id);
 
     if (index === -1) {
@@ -61,7 +65,7 @@ class ProductsService {
 
   }
 
-  delete(id) {
+  async delete(id) {
     const index = this.products.findIndex(product => product.id === id);
 
     if (index === -1) {
