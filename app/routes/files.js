@@ -1,21 +1,24 @@
 
 const express = require('express');
 const router = express.Router();
+const FilesService = require('../services/files');
 
+const services = new FilesService();
 /* files */
 
 //POST
 router.post('/', (req, res) =>  {
   const body = req.body;
+  services.created(body)
   res.json({
-    body
+    message: 'File created successfully'
   })
 })
 
 //GET
-router.get('/:filename', (req, res) =>  {
-  const { filename } = req.params;
-  res.sendFile(`${__dirname}/files/${filename}`);
+router.get('/', (req, res) =>  {
+  const file = services.find();
+  res.json(file);
 })
 
 module.exports = router;
