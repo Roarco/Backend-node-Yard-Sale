@@ -5,11 +5,10 @@ const router = express.Router();
 /* files */
 
 //POST
-router.post('/upload', (req, res) =>  {
+router.post('/', (req, res) =>  {
+  const body = req.body;
   res.json({
-    id: 1,
-    name: 'File 1',
-    url: 'http://example.com/file1.jpg'
+    body
   })
 })
 

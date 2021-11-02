@@ -17,12 +17,10 @@ router.get('/', (req, res) =>  {
 })
 
 //POST
-router.post('/users', (req, res) =>  {
+router.post('/', (req, res) =>  {
+  const body = req.body;
   res.json({
-    id: 1,
-    name: 'User 1',
-    email: 'example@gmail.com',
-    password: '123456'
+    body
   })
 })
 

@@ -39,23 +39,31 @@ router.post('/', (req, res) => {
   });
 });
 
-//PUT
-router.put('/products/:id', (req, res) =>  {
-  const { id } = req.params.id;
+// //PUT
+// router.put('/:id', (req, res) =>  {
+//   const { id } = req.params.id;
+//   res.json({
+//     id,
+//     name: 'Producto 1',
+//     price: '$100'
+//   })
+// })
+
+//PATCH
+router.patch('/:id', (req, res) =>  {
+  const { id } = req.params;
+  const body = req.body;
   res.json({
+    body,
     id,
-    name: 'Producto 1',
-    price: '$100'
   })
 })
 
 //DELETE
-router.delete('/products/:id', (req, res) =>  {
-  const { id } = req.params.id;
+router.delete('/:id', (req, res) =>  {
+  const { id } = req.params;
   res.json({
     id,
-    name: 'Producto 1',
-    price: '$100'
   })
 })
 
