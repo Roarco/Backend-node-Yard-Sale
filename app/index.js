@@ -1,3 +1,4 @@
+const express = require('express');
 
 //importamos el modulos de router
 const products = require('./routes/products');
@@ -8,11 +9,13 @@ const files = require('./routes/files');
 
 // creamos la funcion routerApi
 const routerApi = (app) => {
-    app.use('/api/v1/products', products);
-    app.use('/api/v1/categories', categories);
-    app.use('/api/v1/users', users);
-    app.use('/api/v1/auth', auth);
-    app.use('/api/v1/files', files);
+    const router = express.Router();
+    app.use('/api/v1', router);
+    router.use('/products', products);
+    router.use('/categories', categories);
+    router.use('/users', users);
+    router.use('/auth', auth);
+    router.use('/files', files);
 }
 
 module.exports = routerApi;

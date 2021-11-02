@@ -13,7 +13,7 @@ router.get('/', (req, res) =>  {
   const limit = zise || 10;
   for (let i = 0; i < limit; i++) {
     products.push({
-      id: i,
+      id:i,
       name: faker.commerce.productName(),
       price: parseInt(faker.commerce.price(),10),
       image: faker.image.image()
@@ -32,13 +32,12 @@ router.get('/:id', (req, res) =>  {
 })
 
 //POST
-router.post('/products', (req, res) =>  {
+router.post('/', (req, res) => {
+  const body = req.body;
   res.json({
-    id: 1,
-    name: 'Producto 1',
-    price: '$100'
-  })
-})
+    body,
+  });
+});
 
 //PUT
 router.put('/products/:id', (req, res) =>  {
