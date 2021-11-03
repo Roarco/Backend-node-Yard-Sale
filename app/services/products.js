@@ -1,5 +1,6 @@
 // requerimos fake
 const faker = require('faker');
+const boom = require('@hapi/boom');
 
 // creamos la clase ProductsService
 class ProductsService {
@@ -18,7 +19,8 @@ class ProductsService {
         id: faker.random.uuid(),
         name: faker.commerce.productName(),
         price: parseInt(faker.commerce.price(),10),
-        image: faker.image.image()
+        image: faker.image.image(),
+        isBlocked: faker.random.boolean()
     });
   }
   }
@@ -44,17 +46,22 @@ class ProductsService {
   }
 
   async findOne(id) {
-    //const name = this.getTotal();
-    // devolvemos un usuario
-    return this.products.find(product => product.id === id);
-
+    // devolvemos un producto
+    const product = this.products.find(product => product.id === id);
+    if (!product) {
+      throw boom.notFound('Product not found');
+    }if (product.isBlocked) {
+      throw boom.conflict('Product is blocked');
+    }else {
+      return product;
+    }
   }
 
   async update(id, changes) {
     const index = this.products.findIndex(product => product.id === id);
 
     if (index === -1) {
-      throw new Error('Product not found');
+      throw boom.notFound('Product not found');
     }else {
       const product = this.products[index];
       this.products[index] = {
@@ -70,7 +77,7 @@ class ProductsService {
     const index = this.products.findIndex(product => product.id === id);
 
     if (index === -1) {
-      throw new Error('Product not found');
+      throw boom.notFound('Product not found');
     }else {
       this.products.splice(index, 1);
       return  { id };

@@ -21,4 +21,13 @@ function errorHandler(err, req, res, next) {
   });
 }
 
-module.exports = { logErrors, errorHandler };
+function boomErrorHandler(err, req, res, next) {
+  //si el error es de boom, entonces se puede obtener el error
+  if (err.isBoom) {
+    const { output } = err;
+    res.status(output.statusCode).json(output.payload);
+  }
+    next(err);
+}
+
+module.exports = { logErrors, errorHandler, boomErrorHandler };
