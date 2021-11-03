@@ -1,19 +1,22 @@
-
+const faker = require('faker');
 class authService{
   constructor() {
     this.auth = [];
   }
 
-  created (data) {
-   const newToken = {
-        ...data
+  async created (data) {
+  const newToken = {
+      id: faker.random.uuid(),
+        data
   }
   this.auth.push(newToken)
   return newToken
   }
 
-  find()  {
-    return this.auth;
+  async find()  {
+    return new Promise((resolve) => {
+      resolve(this.auth)
+    },6000);
   }
 }
 

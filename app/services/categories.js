@@ -1,5 +1,6 @@
 
 const faker = require('faker');
+const boom = require('@hapi/boom');
 
 class CategoriesService {
 
@@ -9,7 +10,7 @@ class CategoriesService {
   }
 
   generate() {
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 3; i++) {
       this.categories.push({
         id: faker.random.uuid(),
         name: faker.commerce.department(),
@@ -18,12 +19,22 @@ class CategoriesService {
     }
   }
 
-  find() {
-    return this.categories;
+  async find() {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(this.categories);
+      }, 3000);
+    });
   }
 
-  findOne(id) {
-    return this.categories.find(category => category.id === id);
+  async findOne(id) {
+     const categorie = this.categories.find(category => category.id === id);
+
+      if (!categorie) {
+        throw boom.notFound('Categorie not found');
+      }else {
+        return categorie;
+      }
   }
 }
 

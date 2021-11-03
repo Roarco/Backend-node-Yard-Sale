@@ -5,7 +5,7 @@ class FilesService {
     this.files = [];
   }
 
-  created (data) {
+  async created (data) {
     const newFile = {
       ...data
     }
@@ -13,8 +13,10 @@ class FilesService {
     return newFile
   }
 
-  find()  {
-    return this.files;
+  async find()  {
+    return new Promise((resolve) => {
+      resolve(this.files)
+    },5000)
   }
 
 }
