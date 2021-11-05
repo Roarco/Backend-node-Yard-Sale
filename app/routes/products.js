@@ -48,7 +48,7 @@ router.post('/',
 // })
 
 //PATCH
-router.patch('/:id',
+router.patch('/update/:id',
   validatorHandler(getProductSchema, 'params'),
   validatorHandler(updatedProductSchema, 'body'),
   async (req, res, next) =>  {
@@ -63,7 +63,7 @@ router.patch('/:id',
   })
 
 //DELETE
-router.delete('/:id', async (req, res) =>  {
+router.delete('/delete/:id', async (req, res) =>  {
   const { id } = req.params;
   const deletedProduct = await service.delete(id);
   res.json(deletedProduct);

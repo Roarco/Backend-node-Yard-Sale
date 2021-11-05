@@ -1,5 +1,4 @@
-
-
+const boom = require('@hapi/boom');
 class FilesService {
   constructor() {
     this.files = [];
@@ -13,9 +12,15 @@ class FilesService {
     return newFile
   }
 
-  async find()  {
+  async find(name)  {
     return new Promise((resolve) => {
-      resolve(this.files)
+      const file = this.files.find(file => file.name === name)
+
+      if (!file) {
+        throw boom.notFound(`File ${name} not found`)
+      }else{
+        resolve(file)
+      }
     },5000)
   }
 

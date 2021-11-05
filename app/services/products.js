@@ -19,6 +19,8 @@ class ProductsService {
         id: faker.random.uuid(),
         name: faker.commerce.productName(),
         price: parseInt(faker.commerce.price(),10),
+        description: faker.lorem.sentence(),
+        categoryId: faker.random.uuid(),
         image: faker.image.image(),
         isBlocked: faker.random.boolean()
     });

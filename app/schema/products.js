@@ -2,15 +2,19 @@
 const joi = require('joi');
 
 const id = joi.string().uuid();
-const name = joi.string().min(3).max(15);
+const name = joi.string().min(3).max(30);
 const price = joi.number().integer().min(10);
-const image = joi.string().uri();
+const description = joi.string().min(10).max(200);
+const categorieId = joi.number().integer().min(1);
+const image = joi.array().items(joi.string().uri());
 
 // creamos el schema de productos para la creacion
 
 const createProductSchema = joi.object({
     name: name.required(),
     price: price.required(),
+    description: description.required(),
+    categorieId: categorieId.required(),
     image: image.required()
 })
 
@@ -19,6 +23,8 @@ const createProductSchema = joi.object({
 const updatedProductSchema = joi.object({
     name: name,
     price: price,
+    description: description,
+    categorieId: categorieId,
     image: image
 })
 
@@ -31,7 +37,7 @@ const getProductSchema = joi.object({
 module.exports = {
     createProductSchema,
     updatedProductSchema,
-    getProductSchema
+    getProductSchema,
 }
 
 

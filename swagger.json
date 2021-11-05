@@ -1,0 +1,426 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API Yard Sale",
+    "description": "API para el proyecto yard sale de la escuela de JavaScript",
+    "version": "1.0.0",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3001/api/v1",
+      "description": "Servidor de prueba"
+    }
+  ],
+  "paths": {
+    "/products":{
+      "get": {
+        "tags": ["products"],
+        "summary": "Get all products",
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          }
+        }
+        },
+        "post": {
+          "tags": ["products"],
+          "summary": "Create a new product",
+          "requestBody": {
+            "description": "Product to create",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateProductDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Successful operation"
+        }
+      }
+    }
+  },
+  "/products/{id}": {
+    "get": {
+      "tags": ["products"],
+      "summary": "Get a product by id",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "Id of the product to retrieve",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Successful operation"
+        }
+      }
+  }
+},
+"/products/update/{id}": {
+  "patch": {
+    "tags": ["products"],
+    "summary": "Update a product by id",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "description": "Id of the product to update",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+    }
+  ],
+  "requestBody": {
+    "description": "Product to update",
+    "required": true,
+    "content": {
+      "application/json": {
+        "schema": {
+          "$ref": "#/components/schemas/UpdateProductDto"
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "description": "Successful operation"
+    }
+  }
+}
+},
+"/products/delete/{id}": {
+  "delete": {
+    "tags": ["products"],
+    "summary": "Delete a product by id",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "description": "Id of the product to delete",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Successful operation"
+      }
+    }
+  }
+  },
+  "/users":{
+    "get": {
+      "tags": ["users"],
+      "summary": "Get all users",
+      "responses": {
+        "200": {
+          "description": "Successful operation"
+        }
+      }
+    },
+    "post": {
+      "tags": ["users"],
+      "summary": "Create a new user",
+      "requestBody": {
+        "description": "User to create",
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreateUserDto"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "Successful operation"
+      }
+    }
+  }
+  },
+  "/auth": {
+    "post": {
+      "tags": ["auth"],
+      "summary": "Authenticate a user",
+      "responses": {
+        "200": {
+          "description": "Successful operation"
+        }
+      }
+    },
+    "get": {
+      "tags": ["auth"],
+      "summary": "Get the authenticated user",
+      "responses": {
+        "200": {
+          "description": "Successful operation"
+        }
+      }
+    }
+  },
+  "/categories": {
+    "get": {
+      "tags": ["categories"],
+      "summary": "Get all categories",
+      "responses": {
+        "200": {
+          "description": "Successful operation"
+        }
+      }
+    },
+    "post": {
+      "tags": ["categories"],
+      "summary": "Create a new category",
+      "requestBody": {
+        "description": "Category to create",
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreateCategoryDto"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "Successful operation"
+      }
+      }
+    }
+  },
+  "/categories/{id}": {
+    "get": {
+      "tags": ["categories"],
+      "summary": "Get a category by id",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "Id of the category to retrieve",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Successful operation"
+        }
+      }
+    }
+  },
+  "/categories/update/{id}": {
+    "patch": {
+      "tags": ["categories"],
+      "summary": "Update a category by id",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "Id of the category to update",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "description": "Category to update",
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/UpdateCategoryDto"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Successful operation"
+        }
+      }
+    }
+  },
+  "/files": {
+    "post": {
+      "tags": ["files"],
+      "summary": "Upload a file",
+      "requestBody": {
+        "description": "File to upload",
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreateFile"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Successful operation"
+        }
+      }
+    }
+  },
+  "/files/{name}": {
+    "get": {
+      "tags": ["files"],
+      "summary": "Get a file by name",
+      "parameters": [
+        {
+          "name": "name",
+          "in": "path",
+          "description": "Name of the file to retrieve",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Successful operation"
+        }
+      }
+    }
+  }
+},
+"components": {
+  "schemas": {
+    "CreateProductDto": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number"
+        },
+        "description": {
+          "type": "string"
+        },
+        "categoryId": {
+          "type": "number"
+        },
+        "images": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "UpdateProductDto": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number"
+        },
+        "description": {
+          "type": "string"
+        },
+        "categoryId": {
+          "type": "number"
+        },
+        "images": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "CreateUserDto": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "CreateCategoryDto": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        }
+      }
+    },
+    "UpdateCategoryDto": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        }
+      }
+    },
+    "CreateFile": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "file": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    }
+  }
+},
+  "tags": [
+    {
+      "name": "products"
+    },
+    {
+      "name": "users"
+    },
+    {
+      "name": "auth"
+    },
+    {
+      "name": "categories"
+    },
+    {
+      "name": "files"
+    }
+  ]
+}

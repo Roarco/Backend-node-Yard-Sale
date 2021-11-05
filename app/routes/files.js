@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const FilesService = require('../services/files');
 const validatorHandler = require('../middlewares/validator');
-const { createFille } = require('../schema/filles');
+const { createFille, findFile } = require('../schema/filles');
 const services = new FilesService();
 /* files */
 
@@ -20,9 +20,16 @@ router.post('/',
 })
 
 //GET
-router.get('/', async (req, res) =>  {
-  const file = await services.find();
+router.get('/:name',
+ validatorHandler(findFile, 'params'),
+  async (req, res, next) =>  {
+  try {
+  const { name } = req.params;
+  const file = await services.find(name);
   res.json(file);
+  } catch (error) {
+    next(error);
+  }
 })
 
 module.exports = router;
