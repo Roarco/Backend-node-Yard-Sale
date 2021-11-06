@@ -2,10 +2,14 @@ const express = require('express');
 const routerApi = require('./app/index')
 const { logErrors, errorHandler, boomErrorHandler } = require('./app/middlewares/errorHandler')
 const app = express();
+const cors = require('cors');
 const port = process.env.PORT || 3001;
 
 //usando un middleware nativo de express
 app.use(express.json());
+
+// creamos un middleware para que se pueda usar cors en todas las rutas
+app.use(cors());
 
 //documentando la api con swagger
 const swaggerUi = require('swagger-ui-express');
