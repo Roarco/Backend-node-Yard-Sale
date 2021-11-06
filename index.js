@@ -3,21 +3,19 @@ const routerApi = require('./app/index')
 const { logErrors, errorHandler, boomErrorHandler } = require('./app/middlewares/errorHandler')
 const app = express();
 const cors = require('cors');
-const port = process.env.PORT || 3001;
+const port =  process.env.PORT || 3001;
 
 //usando un middleware nativo de express
 app.use(express.json());
 
 //creamos un array para los origines de donde si quiero recibir peticiones
 const whileList = [
-    'http://localhost:3000',
-    'http://localhost:3001',
     'http://127.0.0.1:5500',
     'https://yardsales.netlify.app/'
 ]
 const corsOptions = {
     origin: (origin, callback) => {
-        if (whileList.includes(origin)) {
+        if (whileList.includes(origin) || !origin) {
             callback(null, true)
         }else{
             callback(new Error('Not allowed by CORS'))
