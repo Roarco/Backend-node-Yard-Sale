@@ -8,8 +8,24 @@ const port = process.env.PORT || 3001;
 //usando un middleware nativo de express
 app.use(express.json());
 
+//creamos un array para los origines de donde si quiero recibir peticiones
+const whileList = [
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'http://127.0.0.1:5500',
+    'https://yardsales.netlify.app/'
+]
+const corsOptions = {
+    origin: (origin, callback) => {
+        if (whileList.includes(origin)) {
+            callback(null, true)
+        }else{
+            callback(new Error('Not allowed by CORS'))
+        }
+    }
+}
 // creamos un middleware para que se pueda usar cors en todas las rutas
-app.use(cors());
+app.use(cors(corsOptions));
 
 //documentando la api con swagger
 const swaggerUi = require('swagger-ui-express');
