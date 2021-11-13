@@ -75,3 +75,5 @@ yarn-error.log
 
 # Build
 dist/
+
+postgres_data
