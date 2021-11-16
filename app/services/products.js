@@ -1,6 +1,7 @@
 // requerimos fake
 const faker = require('faker');
 const boom = require('@hapi/boom');
+//const pool = require('../libs/postgres.pool');
 
 // creamos la clase ProductsService
 class ProductsService {

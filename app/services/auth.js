@@ -1,22 +1,37 @@
-const faker = require('faker');
+
+const pool = require('../libs/postgres.pool');
 class authService{
   constructor() {
-    this.auth = [];
+    this.pool = pool;
+    this.pool.on('connect', () => {
+      console.log('connected to the db');
+    })
+
   }
 
   async created (data) {
-  const newToken = {
-      id: faker.random.uuid(),
-        data
-  }
-  this.auth.push(newToken)
-  return newToken
+    const query =   `INSERT INTO users (token) VALUES ($1) RETURNING *`;
+    const values = [data.token];
+    return new Promise((resolve, reject) => {
+      this.pool.query(query, values, (error, results) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(results.rows);
+      });
+    });
   }
 
   async find()  {
-    return new Promise((resolve) => {
-      resolve(this.auth)
-    },6000);
+    const query =   `SELECT * FROM users`;
+    return new Promise((resolve, reject) => {
+      this.pool.query(query, (error, results) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(results.rows);
+      });
+    });
   }
 }
 

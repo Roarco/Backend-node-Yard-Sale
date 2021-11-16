@@ -1,65 +1,52 @@
 
 
 const boom = require('@hapi/boom');
+const pool = require('../libs/postgres.pool');
+
 
 class CategoriesService {
 
   constructor () {
     this.categories = []
-    this.generate();
-  }
+    this.pool = pool;
+    this.pool.on('error', (err) => {
+      console.error(err);
+  })
 
-  generate() {
-    const nameCategory = ['Clothes', 'Electronics', 'Furniture', 'Toys', 'Other'];
-    const images =['https://placeimg.com/640/480/any?r=0.1967836839565258','https://placeimg.com/640/480/any?r=0.3016731846645835','https://placeimg.com/640/480/any?r=0.2503021058108579','https://placeimg.com/640/480/any?r=0.6894861150860241','https://placeimg.com/640/480/any?r=0.9901806180967545']
-    for (let i = 0; i < 5; i++) {
-      this.categories.push({
-        id: i + 1,
-        name: nameCategory[i],
-        image: images[i]
-      })
-    }
   }
 
     async create(data) {
-      const newCategory = {
-        id: this.categories.length + 1,
-        ...data
-    };
-    this.categories.push(newCategory);
-    return newCategory;
+      const query = 'INSERT INTO public.categories(name, image) VALUES ($1, $2) RETURNING *';
+      const result = await this.pool.query(query, [data.name, data.image]);
+      return result.rows[0];
     }
 
   async find() {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(this.categories);
-      }, 3000);
-    });
+    const query = 'SELECT * FROM public.categories';
+    const result = await this.pool.query(query);
+    return result.rows;
   }
 
   async findOne(id) {
-    const categorie = this.categories.find(category => category.id === id);
-      if (!categorie) {
+    const query = 'SELECT * FROM public.categories WHERE id = $1';
+    const result = await this.pool.query(query, [id]);
+      if (!result.rows[0]) {
         throw boom.notFound('Categorie not found');
       }else {
-        return categorie;
+        return result.rows[0];
       }
 
   }
   async update(id, changes) {
+    const query = 'UPDATE public.categories SET name = $1, image = $2 WHERE id = $3 RETURNING *';
+    const result = await this.pool.query(query, [changes.name, changes.image, id]);
 
-    const index = this.categories.findIndex(category => category.id === id);
+    // const index = this.categories.findIndex(category => category.id === id);
 
-    if (index === -1) {
+    if (result.rows[0] === undefined) {
       throw boom.notFound('Categorie not found');
     }else {
-      const category = this.categories[index];
-      this.categories[index] = {
-        ...category,
-        ...changes
-      };
-      return this.categories[index];
+      return result.rows[0];
     }
 
   }

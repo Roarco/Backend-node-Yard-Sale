@@ -2,7 +2,7 @@ const joi = require('joi');
 
 const name = joi.string().required();
 const file = joi.string().required();
-const description = joi.string().min(30).max(50).required();
+const description = joi.string().required();
 
 const createFille = joi.object({
   name: name.required(),

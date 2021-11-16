@@ -1,27 +1,26 @@
 
-//const faker = require('faker');
+
 const boom = require('@hapi/boom');
-const getConection = require('../libs/postgres');
+const pool = require('../libs/postgres.pool');
 class UsersService {
     constructor(){
         this.users = [];
+        this.pool = pool;
+        this.pool.on('error', (err) => {
+            console.error(err);
+    })
     }
 
     async createUser(data){
-        // const newUser = {
-        //     id: faker.random.uuid(),
-        //     ...data
-        // };
-        // this.users.push(newUser);
-        // return newUser;
-        const client = await getConection();
-        const result = await client.query('INSERT INTO public.users(name, email, password) VALUES($1, $2, $3) RETURNING *', [data.name, data.email, data.password]);
+        const query = 'INSERT INTO public.users(name, email, password) VALUES($1, $2, $3) RETURNING *';
+        const values = [data.name, data.email, data.password];
+        const result = await this.pool.query(query, values);
         return result.rows[0];
     }
 
     async find(){
-        const client = await getConection();
-        const result = await client.query('SELECT * FROM public.users');
+        const query = 'SELECT * FROM public.users';
+        const result = await this.pool.query(query);
         return result.rows;
     }
 

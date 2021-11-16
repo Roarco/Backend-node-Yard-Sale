@@ -1,27 +1,31 @@
 const boom = require('@hapi/boom');
+const pool = require('../libs/postgres.pool');
 class FilesService {
   constructor() {
-    this.files = [];
+    this.pool = pool
+    this.pool.on('error', (err) => {
+      console.error(err)
+    })
   }
 
   async created (data) {
-    const newFile = {
-      ...data
-    }
-    this.files.push(newFile)
-    return newFile
+    const query = `INSERT INTO files (name, file, description) VALUES ($1, $2, $3) RETURNING *`
+    const values = [data.name, data.file, data.description]
+    const result = await this.pool.query(query, values)
+    return result.rows[0]
   }
 
   async find(name)  {
-    return new Promise((resolve) => {
-      const file = this.files.find(file => file.name === name)
+    const query = `SELECT * FROM files WHERE name = $1`
+    const values = [name]
+    const result = await this.pool.query(query, values)
 
-      if (!file) {
+      if (result.rowCount === 0) {
         throw boom.notFound(`File ${name} not found`)
       }else{
-        resolve(file)
+        return result.rows[0]
       }
-    },5000)
+
   }
 
 }
