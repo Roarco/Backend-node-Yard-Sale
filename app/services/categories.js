@@ -1,18 +1,13 @@
 
 
 const boom = require('@hapi/boom');
-const pool = require('../libs/postgres.pool');
+const SequelizeInstance = require('../libs/sequelize');
 
 
 class CategoriesService {
 
   constructor () {
     this.categories = []
-    this.pool = pool;
-    this.pool.on('error', (err) => {
-      console.error(err);
-  })
-
   }
 
     async create(data) {
@@ -23,8 +18,8 @@ class CategoriesService {
 
   async find() {
     const query = 'SELECT * FROM public.categories';
-    const result = await this.pool.query(query);
-    return result.rows;
+    const [data] = await SequelizeInstance.query(query)
+    return data;
   }
 
   async findOne(id) {
