@@ -1,27 +1,22 @@
 
 
 const boom = require('@hapi/boom');
-const pool = require('../libs/postgres.pool');
+const { models } = require('../libs/sequelize');
 class UsersService {
     constructor(){
         this.users = [];
-        this.pool = pool;
-        this.pool.on('error', (err) => {
-            console.error(err);
-    })
     }
 
     async createUser(data){
-        const query = 'INSERT INTO public.users(name, email, password) VALUES($1, $2, $3) RETURNING *';
-        const values = [data.name, data.email, data.password];
-        const result = await this.pool.query(query, values);
-        return result.rows[0];
+        // const query = 'INSERT INTO public.users(name, email, password) VALUES($1, $2, $3) RETURNING *';
+        // const values = [data.name, data.email, data.password];
+        // const [user] = await SequelizeInstance.query(query , values);
+        // return user;
     }
 
     async find(){
-        const query = 'SELECT * FROM public.users';
-        const result = await this.pool.query(query);
-        return result.rows;
+        const response = await models.User.findAll();
+        return response;
     }
 
     async update(id, changes){

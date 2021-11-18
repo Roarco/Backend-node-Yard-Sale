@@ -1,37 +1,23 @@
 
-const pool = require('../libs/postgres.pool');
+// const pool = require('../libs/postgres.pool');
+const { models } = require('../libs/sequelize');
 class authService{
   constructor() {
-    this.pool = pool;
-    this.pool.on('connect', () => {
-      console.log('connected to the db');
-    })
+    // this.pool = pool;
+    // this.pool.on('connect', () => {
+    //   console.log('connected to the db');
+    // })
 
   }
 
   async created (data) {
-    const query =   `INSERT INTO users (token) VALUES ($1) RETURNING *`;
-    const values = [data.token];
-    return new Promise((resolve, reject) => {
-      this.pool.query(query, values, (error, results) => {
-        if (error) {
-          reject(error);
-        }
-        resolve(results.rows);
-      });
-    });
+    const response = await models.Auth.create(data);
+    return response;
   }
 
   async find()  {
-    const query =   `SELECT * FROM users`;
-    return new Promise((resolve, reject) => {
-      this.pool.query(query, (error, results) => {
-        if (error) {
-          reject(error);
-        }
-        resolve(results.rows);
-      });
-    });
+    const response = await models.Auth.findAll();
+    return response;
   }
 }
 

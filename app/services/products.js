@@ -1,7 +1,7 @@
 // requerimos fake
-const faker = require('faker');
+//const faker = require('faker');
 const boom = require('@hapi/boom');
-//const pool = require('../libs/postgres.pool');
+const { models } = require('../libs/sequelize');
 
 // creamos la clase ProductsService
 class ProductsService {
@@ -10,42 +10,35 @@ class ProductsService {
 
   constructor() {
     this.products = [];
-    this.generate(); // Iniciamos nuestro servicio de usuarios
+    // this.generate(); // Iniciamos nuestro servicio de usuarios
   }
 
-  generate() { // generamos los usuarios
-    const limit = 100;
-    for (let i = 0; i < limit; i++) {
-      this.products.push({
-        id: faker.random.uuid(),
-        name: faker.commerce.productName(),
-        price: parseInt(faker.commerce.price(),10),
-        description: faker.lorem.sentence(),
-        categoryId: faker.random.uuid(),
-        image: faker.image.image(),
-        isBlocked: faker.random.boolean()
-    });
-  }
-  }
+  // generate() { // generamos los usuarios
+  //   const limit = 100;
+  //   for (let i = 0; i < limit; i++) {
+  //     this.products.push({
+  //       id: faker.random.uuid(),
+  //       name: faker.commerce.productName(),
+  //       price: parseInt(faker.commerce.price(),10),
+  //       description: faker.lorem.sentence(),
+  //       categoryId: faker.random.uuid(),
+  //       image: faker.image.image(),
+  //       isBlocked: faker.random.boolean()
+  //   });
+  // }
+  // }
 
   //funciones para los servicios
 
   async create(data){
-    const newProduct = {
-      id: faker.random.uuid(),
-      ...data
-    };
-    this.products.push(newProduct);
-    return newProduct;
+    const response = await models.Product.create(data);
+    return response;
   }
 
   async find()  {
     // devolvemos todos los usuarios
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(this.products);
-      }, 5000);
-    })
+    const response = await models.Product.findAll();
+    return response;
   }
 
   async findOne(id) {

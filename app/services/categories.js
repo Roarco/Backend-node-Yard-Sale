@@ -1,8 +1,7 @@
 
 
 const boom = require('@hapi/boom');
-const SequelizeInstance = require('../libs/sequelize');
-
+const { models } = require('../libs/sequelize');
 
 class CategoriesService {
 
@@ -11,15 +10,17 @@ class CategoriesService {
   }
 
     async create(data) {
-      const query = 'INSERT INTO public.categories(name, image) VALUES ($1, $2) RETURNING *';
-      const result = await this.pool.query(query, [data.name, data.image]);
-      return result.rows[0];
+      // const query = 'INSERT INTO public.categories(name, image) VALUES ($1, $2) RETURNING *';
+      // const result = await this.pool.query(query, [data.name, data.image]);
+      // return result.rows[0];
+      // const query = 'INSERT INTO public.categories(name, image) VALUES ($1, $2) RETURNING *';
+      // const result = await this.pool.query(query, [data.name, data.image]);
+      // return result.rows[0];
     }
 
   async find() {
-    const query = 'SELECT * FROM public.categories';
-    const [data] = await SequelizeInstance.query(query)
-    return data;
+    const response = await models.Category.findAll();
+    return response;
   }
 
   async findOne(id) {
