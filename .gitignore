@@ -77,3 +77,4 @@ yarn-error.log
 dist/
 
 postgres_data
+mysql_data
