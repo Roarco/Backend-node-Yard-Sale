@@ -8,10 +8,8 @@ class UsersService {
     }
 
     async createUser(data){
-        // const query = 'INSERT INTO public.users(name, email, password) VALUES($1, $2, $3) RETURNING *';
-        // const values = [data.name, data.email, data.password];
-        // const [user] = await SequelizeInstance.query(query , values);
-        // return user;
+        const response = await models.User.create(data);
+        return response;
     }
 
     async find(){
@@ -20,27 +18,27 @@ class UsersService {
     }
 
     async update(id, changes){
-      const index = this.users.findIndex(user => user.id === id);
-
-      if(index === -1){
+      const response = await models.User.update(changes, {
+        where: {
+          id
+        }
+      });
+      if(response[0] === 0){
         throw boom.notFound('User not found');
       }else{
-        const user = this.users[index]
-        this.users[index] = {
-          ...user,
-          ...changes
-        }
-        return this.users[index];
+        return { id };
       }
     }
 
     async delete(id){
-      const index = this.users.findIndex(user => user.id === id);
-
-      if(index === -1){
+      const response = await models.User.destroy({
+        where: {
+          id
+        }
+      });
+      if(response === 0){
         throw boom.notFound('User not found');
       }else{
-        this.users.splice(index, 1);
         return { id };
       }
     }

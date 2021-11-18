@@ -1,6 +1,6 @@
 const express = require('express');
 const routerApi = require('./app/index')
-const { logErrors, errorHandler, boomErrorHandler } = require('./app/middlewares/errorHandler')
+const { logErrors, errorHandler, boomErrorHandler, sequelizeErrorHandler } = require('./app/middlewares/errorHandler')
 const app = express();
 const cors = require('cors');
 const port =  process.env.PORT || 3001;
@@ -35,6 +35,7 @@ routerApi(app);
 
 app.use(logErrors);
 app.use(boomErrorHandler);
+app.use(sequelizeErrorHandler);
 app.use(errorHandler);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDefinition));

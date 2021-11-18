@@ -31,10 +31,14 @@ router.get('/:id',
 //POST
 router.post('/',
   validatorHandler(createProductSchema, 'body'),
-  async (req, res) => {
-    const body = req.body;
-    const newProduct = await service.create(body);
-    res.status(201).json(newProduct);
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      const newProduct = await service.create(body);
+      res.status(201).json(newProduct);
+    } catch (err) {
+      next(err);
+    }
   });
 
 // //PUT
@@ -56,17 +60,29 @@ router.patch('/update/:id',
       const { id } = req.params;
       const body = req.body;
       const updatedProduct = await service.update(id, body);
-      res.json(updatedProduct);
+      res.json({
+        message: 'Product updated',
+        updatedProduct
+      });
     } catch (error) {
       next(error);
     }
   })
 
 //DELETE
-router.delete('/delete/:id', async (req, res) =>  {
-  const { id } = req.params;
-  const deletedProduct = await service.delete(id);
-  res.json(deletedProduct);
+router.delete('/delete/:id',
+validatorHandler(getProductSchema, 'params'),
+async (req, res, next) =>  {
+  try {
+    const { id } = req.params;
+    const deletedProduct = await service.delete(id);
+    res.json({
+      message: 'Product deleted',
+      deletedProduct
+    });
+  } catch (error) {
+    next(error);
+  }
 })
 
 module.exports = router;

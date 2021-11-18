@@ -6,10 +6,8 @@ class FilesService {
   }
 
   async created (data) {
-    // const query = `INSERT INTO files (name, file, description) VALUES ($1, $2, $3) RETURNING *`
-    // const values = [data.name, data.file, data.description]
-    // const result = await this.pool.query(query, values)
-    // return result.rows[0]
+    const response = await models.File.create(data)
+    return response
   }
 
   async find(name)  {

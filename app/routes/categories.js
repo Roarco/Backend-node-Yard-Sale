@@ -29,10 +29,14 @@ router.get('/:id',
 //POST
 router.post('/',
   validatorHandler(createCategory, 'body'),
-  async (req, res) =>  {
-  const body = req.body;
-  const categorie = await service.create(body);
-  res.json(categorie);
+  async (req, res, next) =>  {
+  try {
+    const body = req.body;
+    const categorie = await service.create(body);
+    res.json(categorie);
+  } catch (error) {
+    next(error);
+  }
 })
 
 //PATCH
@@ -44,7 +48,10 @@ router.patch('/update/:id',
       const { id } = req.params;
       const body = req.body;
       const updatedProduct = await service.update(parseInt(id), body);
-      res.json(updatedProduct);
+      res.json({
+        message: 'Categorie updated',
+        updatedProduct
+      });
     } catch (error) {
       next(error);
     }

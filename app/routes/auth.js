@@ -16,13 +16,17 @@ router.get('/', async (req, res) =>  {
 //POST
 router.post('/',
   validatorHandler(createAuth, 'body'),
-  async (req, res) =>  {
-    const body = req.body;
-    const token = await services.created(body);
-    res.json({
+  async (req, res, next) =>  {
+    try {
+      const body = req.body;
+      const token = await services.created(body);
+      res.json({
       message: 'Auth created',
       token
     })
+    } catch (error) {
+      next(error);
+    }
 })
 
 module.exports = router;

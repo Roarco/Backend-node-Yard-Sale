@@ -17,13 +17,17 @@ router.get('/', async (req, res) =>  {
 //POST
 router.post('/',
 validatorHandler(createdUser, 'body'),
-  async (req, res) =>  {
-  const body = req.body;
-  const user = await services.createUser(body);
-  res.json({
+  async (req, res, next) =>  {
+    try {
+    const body = req.body;
+    const user = await services.createUser(body);
+    res.json({
     message: 'User created',
     user
   });
+    } catch (err) {
+      next(err);
+    }
 })
 
 //PATCH
@@ -35,20 +39,27 @@ router.patch('/:id',
     const { id } = req.params;
     const body = req.body;
     const updateUser = await services.update(id, body);
-    res.json(updateUser);
+    res.json({
+      message: 'User updated',
+      updateUser
+    });
   } catch (error) {
     next(error);
   }
 })
 
 //DELETE
-router.delete('/:id', async(req, res) =>  {
-  const { id } = req.params;
-  const deletedUser = await services.delete(id);
-  res.json({
+router.delete('/:id', async(req, res, next) =>  {
+  try {
+    const { id } = req.params;
+    const deletedUser = await services.delete(id);
+    res.json({
     message: 'User deleted',
     deletedUser
   });
+  }catch (error) {
+    next(error);
+  }
 })
 
 module.exports = router;

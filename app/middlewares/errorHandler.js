@@ -13,7 +13,7 @@ function logErrors(err, req, res, next) {
 /* Crear formato para devolverlo al cliente que se complementa con la función anterior: */
 
 function errorHandler(err, req, res, next) {
- /*  así no se utilice next en el código se debe poner aqui, ya que un middleware
+/*  así no se utilice next en el código se debe poner aqui, ya que un middleware
   de error tiene los cuatro parámetros */
   res.status(500).json({
     message: err.message, //mostrar al cliente el mensaje de error
@@ -30,4 +30,17 @@ function boomErrorHandler(err, req, res, next) {
     next(err);
 }
 
-module.exports = { logErrors, errorHandler, boomErrorHandler };
+function sequelizeErrorHandler(err, req, res, next) {
+  if (err.parent) {
+    const { fields, parent } = err;
+    res.status(500).json({
+      field: fields,
+      message: parent.detail
+    });
+
+  } else {
+    next(err);
+  }
+}
+
+module.exports = { logErrors, errorHandler, boomErrorHandler, sequelizeErrorHandler };
