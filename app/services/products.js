@@ -9,7 +9,6 @@ class ProductsService {
   //constructor
 
   constructor() {
-    this.products = [];
     // this.generate(); // Iniciamos nuestro servicio de usuarios
   }
 
@@ -37,7 +36,9 @@ class ProductsService {
 
   async find()  {
     // devolvemos todos los usuarios
-    const response = await models.Product.findAll();
+    const response = await models.Product.findAll({
+      include: ['category']
+    });
     return response;
   }
 
