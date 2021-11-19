@@ -5,21 +5,21 @@ const FILE_TABLE = 'files';
 
 const FileSchema = {
   id: {
-    allownull: false,
+    allowNull: false,
     autoIncrement: true,
     primaryKey: true,
     type: DataTypes.INTEGER,
   },
   name: {
-    allownull: false,
+    allowNull: false,
     type: DataTypes.STRING,
   },
   file: {
-    allownull: false,
+    allowNull: false,
     type: DataTypes.STRING,
   },
   description: {
-    allownull: false,
+    allowNull: false,
     type: DataTypes.STRING,
   },
 };

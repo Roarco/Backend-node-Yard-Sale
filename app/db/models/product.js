@@ -4,25 +4,25 @@ const PRODUCT_TABLE = 'products';
 
 const ProductSchema = {
   id: {
-    allownull: false,
+    allowNull: false,
     autoIncrement: true,
     primaryKey: true,
     type: DataTypes.INTEGER,
   },
   name: {
-    allownull: false,
+    allowNull: false,
     type: DataTypes.STRING,
   },
   price: {
-    allownull: false,
+    allowNull: false,
     type: DataTypes.INTEGER,
   },
   description: {
-    allownull: false,
+    allowNull: false,
     type: DataTypes.STRING,
   },
   categorieId: {
-    allownull: false,
+    allowNull: false,
     type: DataTypes.INTEGER,
     foreignKey: true,
     references: {
@@ -30,7 +30,7 @@ const ProductSchema = {
       key: 'id',
     },
     image: {
-      allownull: false,
+      allowNull: false,
       type: DataTypes.STRING,
     }
   },

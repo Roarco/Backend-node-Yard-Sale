@@ -5,17 +5,17 @@ const CATEGORIES_TABLE = 'categories';
 
 const CategorySchema = {
   id: {
-    allownull: false,
+    allowNull: false,
     autoIncrement: true,
     primaryKey: true,
     type: DataTypes.INTEGER,
   },
   name: {
-    allownull: false,
+    allowNull: false,
     type: DataTypes.STRING,
   },
   image: {
-    allownull: false,
+    allowNull: false,
     type: DataTypes.STRING,
   },
 }

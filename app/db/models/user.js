@@ -5,30 +5,26 @@ const USER_TABLE = 'users';
 
 const UserSchema = {
   id: {
-    allownull: false,
+    allowNull: false,
     autoIncrement: true,
     primaryKey: true,
     type: DataTypes.INTEGER,
   },
-  name: {
-    allownull: false,
-    type: DataTypes.STRING,
-  },
   email: {
-    allownull: false,
+    allowNull: false,
     type: DataTypes.STRING,
     unique: true,
   },
   password: {
-    allownull: false,
+    allowNull: false,
     type: DataTypes.STRING,
   },
   role: {
-    allownull: false,
+    allowNull: false,
     type: DataTypes.STRING,
   },
   createdAt: {
-    allownull: false,
+    allowNull: false,
     type: DataTypes.DATE,
     field: 'created_at',
     defaultValue: Sequelize.NOW,
