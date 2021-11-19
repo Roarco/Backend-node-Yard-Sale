@@ -1,7 +1,7 @@
 
 module.exports = {
   'config':'./app/db/config.js',
-  'models-path': './app/db/models',
+  'models-path': './app/db/models/',
   'migrations-path': './app/db/migrations/',
   'seeders-path': './app/db/seeders/',
 }
