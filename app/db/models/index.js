@@ -14,7 +14,7 @@ function setupModels(sequelize){
   Auth.init(AuthSchema, Auth.config(sequelize));
   Customer.init(CustomerSchema, Customer.config(sequelize));
 
-
+  User.associate(sequelize.models);
   Customer.associate(sequelize.models);
 }
 
