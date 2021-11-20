@@ -5,6 +5,8 @@ const { File, FileSchema} = require('./file');
 const { Product, ProductSchema} = require('./product');
 const {Auth, AuthSchema} = require('./auth');
 const {Customer, CustomerSchema} = require('./customers');
+const {Order, OrderSchema} = require('./orders');
+
 
 function setupModels(sequelize){
   User.init(UserSchema, User.config(sequelize));
@@ -13,11 +15,14 @@ function setupModels(sequelize){
   Product.init(ProductSchema, Product.config(sequelize));
   Auth.init(AuthSchema, Auth.config(sequelize));
   Customer.init(CustomerSchema, Customer.config(sequelize));
+  Order.init(OrderSchema, Order.config(sequelize));
+
 
   User.associate(sequelize.models);
   Customer.associate(sequelize.models);
   Category.associate(sequelize.models);
   Product.associate(sequelize.models);
+  Order.associate(sequelize.models);
 }
 
 module.exports = setupModels;
