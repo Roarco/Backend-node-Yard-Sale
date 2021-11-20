@@ -26,7 +26,9 @@ class ordersService {
           include: [{
             association: 'customer',
             include: ['user']
-          }],
+          },
+          'items'
+        ],
         });
         if(response === null){
           throw boom.notFound('Order not found');

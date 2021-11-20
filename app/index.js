@@ -8,6 +8,7 @@ const auth = require('./routes/auth');
 const files = require('./routes/files');
 const customer = require('./routes/customers');
 const orders = require('./routes/orders');
+const OrderProduct = require('./routes/orders-products');
 
 // creamos la funcion routerApi
 const routerApi = (app) => {
@@ -20,6 +21,7 @@ const routerApi = (app) => {
     router.use('/files', files);
     router.use('/customers', customer);
     router.use('/orders', orders);
+    router.use('/orders-products', OrderProduct);
 }
 
 module.exports = routerApi;
