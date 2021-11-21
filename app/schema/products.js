@@ -11,6 +11,9 @@ const image = joi.string();
 const limit = joi.number().integer().min(1);
 const offset = joi.number().integer().min(0);
 
+const price_min = joi.number().integer().min(10);
+const price_max = joi.number().integer().min(10);
+
 // creamos el schema de productos para la creacion
 
 const createProductSchema = joi.object({
@@ -41,7 +44,13 @@ const getProductSchema = joi.object({
 
 const queryProductSchema = joi.object({
     limit: limit,
-    offset: offset
+    offset: offset,
+    price: price,
+    price_min: price_min,
+    price_max: price_max.when('price_min', {
+      is: price_min.required(),
+      then: joi.required(),
+    })
 })
 
 module.exports = {
