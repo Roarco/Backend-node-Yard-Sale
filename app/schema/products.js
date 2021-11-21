@@ -8,6 +8,9 @@ const description = joi.string().min(10).max(200);
 const categoryId = joi.number().integer().min(1);
 const image = joi.string();
 
+const limit = joi.number().integer().min(1);
+const offset = joi.number().integer().min(0);
+
 // creamos el schema de productos para la creacion
 
 const createProductSchema = joi.object({
@@ -34,10 +37,18 @@ const getProductSchema = joi.object({
     id: id.required()
 })
 
+// validamos los datos para una paginacion con limit y offset
+
+const queryProductSchema = joi.object({
+    limit: limit,
+    offset: offset
+})
+
 module.exports = {
     createProductSchema,
     updatedProductSchema,
     getProductSchema,
+    queryProductSchema
 }
 
 

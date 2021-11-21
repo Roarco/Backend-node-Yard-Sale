@@ -2,24 +2,29 @@ const express = require('express');
 const router = express.Router();
 const CategoriesService = require('../services/categories');
 const validatorHandler = require('../middlewares/validator');
-const { getCategories, createCategory, updateCategory } = require('../schema/categories');
+const { getCategories, createCategory, updateCategory, querySchema } = require('../schema/categories');
 const service = new CategoriesService();
 
 
 /* categories */
 
 //GET
-router.get('/', async (req, res) =>  {
-  const categories = await service.find();
-  res.json(categories)
+router.get('/', async (req, res, next) =>  {
+  try {
+    const categories = await service.find();
+    res.json(categories)
+  } catch (error) {
+    next(error);
+  }
 })
 
-router.get('/:id',
+router.get('/:id/products/',
   validatorHandler(getCategories, 'params'),
+  validatorHandler(querySchema, 'query'),
   async (req, res, next) => {
   try {
     const { id } = req.params;
-    const categorie = await service.findOne(parseInt(id));
+    const categorie = await service.findOne(parseInt(id), req.query);
     res.json(categorie);
   } catch (error) {
     next(error);

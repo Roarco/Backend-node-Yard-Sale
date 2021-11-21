@@ -34,12 +34,18 @@ class ProductsService {
     return response;
   }
 
-  async find()  {
+  async find(query) {
     // devolvemos todos los usuarios
-    const response = await models.Product.findAll({
+    const options =  {
       include: ['category']
-    });
-    return response;
+    }
+    const { limit, offset } = query;
+    if(limit && offset){
+      options.limit = limit;
+      options.offset = offset;
+    }
+    const products = await models.Product.findAll(options);
+    return products;
   }
 
   async findOne(id) {
