@@ -12,7 +12,8 @@ app.use(express.json());
 const whileList = [
     'http://127.0.0.1:5500',
     'https://yardsales.netlify.app/',
-    'http://localhost:3001'
+    'http://localhost:3001',
+    'https://stormy-dusk-92487.herokuapp.com/api-docs/',
 ]
 const corsOptions = {
     origin: (origin, callback) => {
