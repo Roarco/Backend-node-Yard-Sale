@@ -19,7 +19,27 @@
     "/products":{
       "get": {
         "tags": ["products"],
-        "summary": "Get all products",
+        "summary": "Get products with limit and offset",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of products to return",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Number of products to skip",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation"
@@ -206,10 +226,10 @@
       }
     }
   },
-  "/categories/{id}": {
+  "/categories/{id}/products/": {
     "get": {
       "tags": ["categories"],
-      "summary": "Get a category by id",
+      "summary": "Get a category by id and the limit and offset of the products",
       "parameters": [
         {
           "name": "id",
@@ -218,6 +238,24 @@
           "required": true,
           "schema": {
             "type": "string"
+          }
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "description": "Number of products to return",
+          "required": false,
+          "schema": {
+            "type": "number"
+          }
+        },
+        {
+          "name": "offset",
+          "in": "query",
+          "description": "Number of products to skip",
+          "required": false,
+          "schema": {
+            "type": "number"
           }
         }
       ],
@@ -323,11 +361,8 @@
         "categoryId": {
           "type": "number"
         },
-        "images": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
+        "image": {
+          "type": "string"
         }
       }
     },
@@ -346,24 +381,21 @@
         "categoryId": {
           "type": "number"
         },
-        "images": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
+        "image": {
+          "type": "string"
         }
       }
     },
     "CreateUserDto": {
       "type": "object",
       "properties": {
-        "name": {
-          "type": "string"
-        },
         "email": {
           "type": "string"
         },
         "password": {
+          "type": "string"
+        },
+        "role": {
           "type": "string"
         }
       }
