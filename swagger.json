@@ -12,7 +12,7 @@
   "servers": [
     {
       "url": "https://stormy-dusk-92487.herokuapp.com/api/v1",
-      "description": "Servidor de prueba"
+      "description": "Servidor de prueba en Heroku"
     }
   ],
   "paths": {
