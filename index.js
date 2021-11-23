@@ -4,6 +4,7 @@ const { logErrors, errorHandler, boomErrorHandler, sequelizeErrorHandler } = req
 const app = express();
 const cors = require('cors');
 const port =  process.env.PORT || 3001;
+const checkApiKey = require('./app/middlewares/auth');
 
 //usando un middleware nativo de express
 app.use(express.json());
@@ -41,6 +42,13 @@ app.use(sequelizeErrorHandler);
 app.use(errorHandler);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDefinition));
+
+//probando autenticacion
+app.get('/',
+    checkApiKey,
+(req, res) => {
+    res.send('Hello World');
+});
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
