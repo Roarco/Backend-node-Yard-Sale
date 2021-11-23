@@ -49,7 +49,9 @@ router.patch('/:id',
 })
 
 //DELETE
-router.delete('/:id', async(req, res, next) =>  {
+router.delete('/:id',
+  validatorHandler(getUser, 'params'),
+async(req, res, next) =>  {
   try {
     const { id } = req.params;
     const deletedUser = await services.delete(id);

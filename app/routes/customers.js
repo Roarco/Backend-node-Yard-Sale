@@ -34,10 +34,13 @@ router.patch('/:id',
 validatorHandler(updatedCustomer, 'body'),
   async (req, res, next) =>  {
     try {
-    const id = req.params;
+    const { id } = req.params;
     const body = req.body;
     const customer = await services.update(id, body);
-    res.json(customer);
+    res.json({
+      message: 'Customer updated',
+      customer
+    });
     } catch (err) {
       next(err);
     }
@@ -49,9 +52,12 @@ router.delete('/:id',
   validatorHandler(getCustomer, 'params'),
   async (req, res, next) =>  {
     try {
-    const id = req.params;
+    const { id } = req.params;
     const customer = await services.delete(id);
-    res.json(customer);
+    res.json({
+      message: 'Customer deleted',
+      customer
+    });
     } catch (err) {
       next(err);
     }

@@ -9,6 +9,7 @@ class UsersService {
 
     async createUser(data){
         const response = await models.User.create(data);
+        delete response.dataValues.password;
         return response;
     }
 
