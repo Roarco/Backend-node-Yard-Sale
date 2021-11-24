@@ -3,6 +3,7 @@ const router = express.Router();
 const CategoriesService = require('../services/categories');
 const validatorHandler = require('../middlewares/validator');
 const { getCategories, createCategory, updateCategory, querySchema } = require('../schema/categories');
+const passport = require('passport')
 const service = new CategoriesService();
 
 
@@ -33,15 +34,16 @@ router.get('/:id/products/',
 
 //POST
 router.post('/',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(createCategory, 'body'),
   async (req, res, next) =>  {
-  try {
-    const body = req.body;
-    const categorie = await service.create(body);
-    res.json(categorie);
-  } catch (error) {
-    next(error);
-  }
+    try {
+      const body = req.body;
+      const categorie = await service.create(body);
+      res.json(categorie);
+    } catch (error) {
+      next(error);
+    }
 })
 
 //PATCH
