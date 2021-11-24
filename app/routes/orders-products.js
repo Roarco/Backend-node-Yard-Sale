@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const OrderProductService = require('../services/orders-products');
 const validatorHandler = require('../middlewares/validator');
+const passport = require('passport')
 const { getOrderProducts, createOrderProduct} = require('../schema/orders-products');
 
 const services = new OrderProductService();
@@ -24,6 +25,7 @@ async (req, res, next) => {
 
 // POST
 router.post('/',
+passport.authenticate('jwt', { session: false }),
 validatorHandler(createOrderProduct, 'body'),
 async (req, res, next) => {
   try {

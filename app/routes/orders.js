@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const OrdersService = require('../services/orders');
 const validatorHandler = require('../middlewares/validator');
+const passport = require('passport')
 const { getOders, createOrder} = require('../schema/orders')
 
 const services = new OrdersService();
@@ -24,15 +25,16 @@ async (req, res, next) =>  {
 
 //POST
 router.post('/',
-validatorHandler(createOrder, 'body'),
-async (req, res, next) =>  {
-  try {
-    const body = req.body;
-    const order = await services.createOrder(body);
-    res.json(order)
-  } catch (error) {
-    next(error);
-  }
+  passport.authenticate('jwt', { session: false }),
+  validatorHandler(createOrder, 'body'),
+  async (req, res, next) =>  {
+    try {
+      const body = req.body;
+      const order = await services.createOrder(body);
+      res.json(order)
+    } catch (error) {
+      next(error);
+    }
 })
 
 module.exports = router;

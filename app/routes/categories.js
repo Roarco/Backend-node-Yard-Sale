@@ -48,6 +48,7 @@ router.post('/',
 
 //PATCH
 router.patch('/update/:id',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getCategories, 'params'),
   validatorHandler(updateCategory, 'body'),
   async (req, res, next) =>  {
