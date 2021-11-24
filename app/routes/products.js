@@ -1,6 +1,8 @@
 const express = require('express');
 const productsService = require('../services/products');
 const validatorHandler = require('../middlewares/validator');
+const passport = require('passport')
+const { ckeckRoles } = require('../middlewares/auth');
 const{ createProductSchema, updatedProductSchema, getProductSchema , queryProductSchema } = require('../schema/products');
 
 const router = express.Router();
@@ -11,6 +13,8 @@ const service = new productsService();
 //GET
 
 router.get('/',
+  passport.authenticate('jwt', { session: false }),
+  ckeckRoles('admin' , 'user'),
   validatorHandler(queryProductSchema, 'query'),
   async (req, res, next) =>  {
     try {
@@ -22,6 +26,8 @@ router.get('/',
 });
 
 router.get('/:id',
+  passport.authenticate('jwt', { session: false }),
+  ckeckRoles( 'admin' , 'user'),
   validatorHandler(getProductSchema, 'params'),
   async (req, res, next) =>  {
     try {
@@ -36,6 +42,8 @@ router.get('/:id',
 
 //POST
 router.post('/',
+  passport.authenticate('jwt', { session: false }),
+  ckeckRoles('admin' ),
   validatorHandler(createProductSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -59,6 +67,8 @@ router.post('/',
 
 //PATCH
 router.patch('/update/:id',
+  passport.authenticate('jwt', { session: false }),
+  ckeckRoles('admin'),
   validatorHandler(getProductSchema, 'params'),
   validatorHandler(updatedProductSchema, 'body'),
   async (req, res, next) =>  {
@@ -77,6 +87,8 @@ router.patch('/update/:id',
 
 //DELETE
 router.delete('/delete/:id',
+  passport.authenticate('jwt', { session: false }),
+  ckeckRoles('admin'),
 validatorHandler(getProductSchema, 'params'),
 async (req, res, next) =>  {
   try {

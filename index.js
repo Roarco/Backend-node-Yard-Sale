@@ -4,7 +4,7 @@ const { logErrors, errorHandler, boomErrorHandler, sequelizeErrorHandler } = req
 const app = express();
 const cors = require('cors');
 const port =  process.env.PORT || 3001;
-const checkApiKey = require('./app/middlewares/auth');
+const { checkApiKey } = require('./app/middlewares/auth');
 const passport = require('passport')
 
 //usando un middleware nativo de express

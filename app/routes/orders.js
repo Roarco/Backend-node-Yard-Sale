@@ -4,6 +4,7 @@ const router = express.Router();
 const OrdersService = require('../services/orders');
 const validatorHandler = require('../middlewares/validator');
 const passport = require('passport')
+const { ckeckRoles } = require('../middlewares/auth');
 const { getOders, createOrder} = require('../schema/orders')
 
 const services = new OrdersService();
@@ -12,6 +13,8 @@ const services = new OrdersService();
 
 //GET
 router.get('/:id',
+  passport.authenticate('jwt', { session: false }),
+  ckeckRoles('user', 'admin'),
   validatorHandler(getOders, 'params'),
 async (req, res, next) =>  {
   try {
@@ -26,6 +29,7 @@ async (req, res, next) =>  {
 //POST
 router.post('/',
   passport.authenticate('jwt', { session: false }),
+  ckeckRoles('user'),
   validatorHandler(createOrder, 'body'),
   async (req, res, next) =>  {
     try {
