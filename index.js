@@ -5,6 +5,7 @@ const app = express();
 const cors = require('cors');
 const port =  process.env.PORT || 3001;
 const checkApiKey = require('./app/middlewares/auth');
+const passport = require('passport')
 
 //usando un middleware nativo de express
 app.use(express.json());
@@ -28,6 +29,10 @@ const corsOptions = {
 }
 // creamos un middleware para que se pueda usar cors en todas las rutas
 app.use(cors(corsOptions));
+
+
+app.use(passport.initialize());
+require('./app/utils/auth/index');
 
 //documentando la api con swagger
 const swaggerUi = require('swagger-ui-express');
