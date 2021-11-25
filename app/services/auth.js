@@ -31,6 +31,7 @@ class authService{
       role: user.role,
     }
   const token = jwt.sign(payload, config.jwtSecret);
+  delete user.dataValues.recoveryToken;
   return {
     user,
     token,
@@ -57,6 +58,22 @@ async sendRecovery(email){
   const response = await this.sendMail(mail);
   return response;
 }
+
+  async changePassword(token,password,confirmPassword){
+
+      if(password !== confirmPassword){
+        throw {message: 'Las contraseñas no coinciden'};
+      }
+      const payload = jwt.verify(token, config.jwtSecret);
+      const user = await services.findOne(payload.sub);
+      if(user.recoveryToken !== token){
+        throw boom.unauthorized();
+      }
+      const hashedPassword = await bcryptjs.hash(password, 10);
+      await services.update(user.id, {password: hashedPassword, recoveryToken: null});
+      return {message: 'Contraseña cambiada'};
+
+  }
 
   async sendMail(infoMail){
     // create reusable transporter object using the default SMTP transport
