@@ -5,7 +5,7 @@ const OrdersService = require('../services/orders');
 const validatorHandler = require('../middlewares/validator');
 const passport = require('passport')
 const { ckeckRoles } = require('../middlewares/auth');
-const { getOders, createOrder} = require('../schema/orders')
+const { getOders} = require('../schema/orders')
 
 const services = new OrdersService();
 
@@ -29,11 +29,13 @@ async (req, res, next) =>  {
 //POST
 router.post('/',
   passport.authenticate('jwt', { session: false }),
-  ckeckRoles('user'),
-  validatorHandler(createOrder, 'body'),
+  //ckeckRoles('user'),
+  //validatorHandler(createOrder, 'body'),
   async (req, res, next) =>  {
     try {
-      const body = req.body;
+      const body = {
+        customerId: req.user.sub,
+      }
       const order = await services.createOrder(body);
       res.json(order)
     } catch (error) {

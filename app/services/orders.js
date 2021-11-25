@@ -7,8 +7,22 @@ class ordersService {
     }
 
     async createOrder(data){
-        const response = await models.Order.create(data);
-        return response;
+        // const response = await models.Order.create(data);
+        // return response;
+        const customer = await models.Customer.findAll({
+          where: {
+            '$user.id$': data.customerId
+          },
+          include: ['user']
+        });
+        if(!customer){
+          throw boom.notFound('Customer not found');
+        }
+        const dataOrder = {
+          customerId: customer[0].id,
+        }
+        const newOrder = await models.Order.create(dataOrder);
+        return newOrder;
     }
 
     async find(){
@@ -34,6 +48,18 @@ class ordersService {
           throw boom.notFound('Order not found');
         }
         return response;
+    }
+    async findByUser(userId) {
+      const orders = await models.Order.findAll({
+        where: {
+          '$customer.user.id$' : userId
+        },
+        include: [{
+          association: 'customer',
+          include: ['user']
+        }]
+      });
+      return orders;
     }
 
     async update(id, changes){
