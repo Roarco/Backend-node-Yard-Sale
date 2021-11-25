@@ -1,7 +1,6 @@
 {
   "name": "yard-sale-backend",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
@@ -44,5 +43,6 @@
   },
   "engines": {
     "node": "16.x"
-  }
+  },
+  "description": ""
 }

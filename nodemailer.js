@@ -12,8 +12,8 @@ async function sendMail() {
     secure: true, // true for 465, false for other ports
     port: 465,
     auth: {
-        user: config.user,
-        pass: config.password
+        user: config.smtpEmail,
+        pass: config.smtpPassword
     }
   });
 

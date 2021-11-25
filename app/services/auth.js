@@ -37,31 +37,41 @@ class authService{
   }
   }
 
-  async sendMail(email){
-    const user = await services.findByEmail(email);
+async sendRecovery(email){
+  const user = await services.findByEmail(email);
       if(!user){
         throw boom.unauthorized();
       }
+  const payload = {
+    sub: user.dataValues.id,
+  }
+  const token = jwt.sign(payload, config.jwtSecret, {expiresIn: '15min'});
+  const link = `https://yardsales.netlify.app/password-recovery?token=${token}`;
+  await services.update(user.id, {recoveryToken: token});
+  const mail = {
+      from: config.smtpEmail, // sender address
+      to: `${user.email}`, // list of receivers
+      subject: "Recupera tu contraseña de Yard sale", // Subject line
+      html: `<b>Ingresa a este link para recuperar tu contraseña:${link}</b>`, // html body
+  }
+  const response = await this.sendMail(mail);
+  return response;
+}
+
+  async sendMail(infoMail){
     // create reusable transporter object using the default SMTP transport
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
       secure: true,
       port: 465,
       auth: {
-          user: 'sebuscaroberh@gmail.com',
-          pass: 'rjbfgvdakyivmtxu'
+          user: config.smtpEmail,
+          pass: config.smtpPassword
       }
     });
 
     // send mail with defined transport object
-    await transporter.sendMail({
-      from: 'sebuscaroberh@gmail.com', // sender address
-      to: `${user.email}`, // list of receivers
-      subject: "este correo se envio desde node js ✔", // Subject line
-      text: "Dios es poderoso?", // plain text body
-      html: "<b>Dios es poderoso?</b>", // html body
-    });
-
+    await transporter.sendMail(infoMail);
     return {message: 'correo enviado'}
   }
 }

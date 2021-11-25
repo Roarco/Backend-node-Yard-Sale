@@ -19,7 +19,13 @@ class UsersService {
         );
         return response;
     }
-
+    async findOne(id){
+      const user = await models.User.findByPk(id);
+      if(!user){
+        throw boom.notFound('User not found');
+      }
+      return user;
+    }
     async findByEmail(email){
       const response = await models.User.findOne(
         {
@@ -30,16 +36,9 @@ class UsersService {
   }
 
     async update(id, changes){
-      const response = await models.User.update(changes, {
-        where: {
-          id
-        }
-      });
-      if(response[0] === 0){
-        throw boom.notFound('User not found');
-      }else{
-        return { id };
-      }
+      const user = await this.findOne(id);
+      const response = await user.update(changes);
+      return response;
     }
 
     async delete(id){
