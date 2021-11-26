@@ -15,6 +15,7 @@ const createCategory = joi.object ({
 
 //creamos el schema de usuarios para la actualizacion
 const updateCategory = joi.object ({
+    id: id,
     name: name,
     image: image
 })
